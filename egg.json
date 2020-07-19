@@ -1,0 +1,11 @@
+{
+  "name": "summon",
+  "description": "An elegant requests library for Deno",
+  "stable": false,
+  "repository": "https://github.com/MartonDev/summon",
+  "files": [
+    "./README.md",
+    "./mod.ts",
+    "./lib"
+  ]
+}
