@@ -25,4 +25,4 @@ summon.trace = async (url: string, data?: IData | string | FormData, config?: IR
 summon.patch = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'patch', data }))
 
 // the default config
-summon.defaultConfig = { method: 'get', timeout: 1000, validateStatus: (status: number) => (status >= 200 && status < 300) }
+summon.defaultConfig = { method: 'get', timeout: 0, throwErrorOnTimeout: false, validateStatus: (status: number) => (status >= 200 && status < 300) }

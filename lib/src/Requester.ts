@@ -12,6 +12,7 @@ export async function doRequest ({
   params,
   validateStatus,
   timeout, // with cancel token
+  throwErrorOnTimeout,
   auth,
   data,
   abortController
@@ -83,14 +84,17 @@ export async function doRequest ({
 
   // timeout and abort request
   if(!timeout || timeout < 0)
-    timeout = 1000 // set to default
+    timeout = 0 // set to default
 
+  // set timeout error
   let timeoutThread = setTimeout(() => {
 
     if(abortController) abortController.abort
+    if(throwErrorOnTimeout) throw new Error(`Request to ${ url } timed out. \n Config: \n${ { url, baseURL, method, headers, params, validateStatus, data, timeout, throwErrorOnTimeout, auth, abortController } }`)
   
   }, timeout)
 
+  // try fetching the result
   try {
 
     let
@@ -98,7 +102,7 @@ export async function doRequest ({
       responseData, // response body
       responseDataType = Response.headers.get('Content-Type') || '', // the response body type
       responseHeaders = Response.headers, // saving the response headers
-      finalConfig: IRequest = { url, baseURL, method, headers, params, data, timeout, auth, abortController }, // re-concating the config with (supposably) previously modified data
+      finalConfig: IRequest = { url, baseURL, method, headers, params, validateStatus, data, timeout, throwErrorOnTimeout, auth, abortController }, // re-concating the config with (supposably) previously modified data
       { status, statusText } = Response,
       validStatusCode = true // variable that returns the check of the user suplied / built in status validator
 

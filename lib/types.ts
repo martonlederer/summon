@@ -7,6 +7,7 @@ export interface IRequest {
   params?: IParams
   validateStatus?: Function
   timeout?: number
+  throwErrorOnTimeout?: boolean
   auth?: { username: string, password: string }
   data?: IData | string | FormData
   abortController?: AbortController
