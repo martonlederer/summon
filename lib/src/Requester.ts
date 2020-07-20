@@ -14,11 +14,11 @@ export async function doRequest ({
   timeout, // with cancel token
   auth,
   data,
-  cancelToken
+  abortController
 
 }: IRequest): Promise<IResult> {
 
-  const request: RequestInit = {}
+  const Request: RequestInit = {}
 
   // using base url ?
   if(baseURL)
@@ -57,21 +57,79 @@ export async function doRequest ({
       throw new Error('Can\'t use data field in a get request')
 
     if(typeof data === 'string' || data instanceof FormData)
-      request.body = data
+      Request.body = data
     else { // data is not in usable format, we have to convert it
 
       if(!headers) headers = {}
 
       headers['Accept'] = 'application/json'
       headers['Content-Type'] = 'application/json'
-      request.body = JSON.stringify(data)
+      Request.body = JSON.stringify(data)
 
     }
 
   }
 
   // cleaning up headers
-  if(headers) {
-    request.headers = createHeaders(headers)
+  if(headers)
+    Request.headers = createHeaders(headers)
+
+  // set a clean abort controller, we'll need it for timeouts
+  if(!abortController)
+    abortController = new AbortController()
+
+  // enable cancelling requests
+  Request.signal = abortController.signal
+
+  // timeout and abort request
+  if(!timeout || timeout < 0)
+    timeout = 1000 // set to default
+
+  let timeoutThread = setTimeout(() => {
+
+    if(abortController) abortController.abort
+  
+  }, timeout)
+
+  try {
+
+    let
+      Response = await fetch(url, Request), // make request
+      responseData, // response body
+      responseDataType = Response.headers.get('Content-Type') || '', // the response body type
+      responseHeaders = Response.headers, // saving the response headers
+      finalConfig: IRequest = { url, baseURL, method, headers, params, data, timeout, auth, abortController }, // re-concating the config with (supposably) previously modified data
+      { status, statusText } = Response,
+      validStatusCode = true // variable that returns the check of the user suplied / built in status validator
+
+    if(responseDataType.toLocaleLowerCase().includes('json')) { // if the response data is json, try parsing it
+
+      try {
+
+        responseData = await Response.json()
+
+      }catch (err) {
+
+        responseData = await Response.text() // could not parse as json, parsing as text
+
+      }
+
+    }else
+      responseData = Response.text() // parsing as text
+
+    if(validateStatus) validStatusCode = validateStatus(status)
+
+    if(validStatusCode)
+      return { response: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, error: null }
+    else
+      return { response: null, error: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig } }
+
+  }catch(error) {
+
+    return { response: null, error }
+
+  }
+
+  return { response: null, error: new Error('Unknown error') }
 
 }

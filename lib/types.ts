@@ -9,7 +9,7 @@ export interface IRequest {
   timeout?: number
   auth?: { username: string, password: string }
   data?: IData | string | FormData
-  cancelToken?: AbortSignal
+  abortController?: AbortController
   
 }
 
@@ -25,6 +25,12 @@ export interface IHeadData {
 
 }
 
+export interface IResponseError {
+
+  [key: string]: any
+
+}
+
 export interface IParams {
 
   [key: string]: string | boolean | number
@@ -33,15 +39,15 @@ export interface IParams {
 
 export interface IResult {
 
-  response: IResponse
-  error: Error | null
+  response: IResponse | null
+  error: Error | IResponseError | null
 
 }
 
 export interface IResponse {
 
   status: number
-  statusMessage: string
+  statusText: string
   data: any
   headers: Headers
   config: IRequest
