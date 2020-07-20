@@ -1,8 +1,9 @@
 import { summon } from '../mod.ts'
 
-await summon.get('test')
-await summon({
+let { response, error } = await summon.get('test')
 
-  method: 'get'
-
-})
+if(!error)
+  console.log('No error', response)
+else
+  console.log('Error', error)
+  
