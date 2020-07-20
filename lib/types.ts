@@ -1,16 +1,13 @@
 export interface IRequest {
 
   url: string
+  baseURL?: string
+  method?: string | 'get' | 'post' | 'put' | 'delete' | 'options' | 'head' | 'connect' | 'trace' | 'patch'
   headers?: IHeadData
-  params?: {
-
-    [key: string]: string | boolean | number
-
-  }
+  params?: IParams
   validateStatus?: Function
   timeout?: number
   auth?: { username: string, password: string }
-  method?: string | 'get' | 'post' | 'put' | 'delete' | 'options' | 'head' | 'connect' | 'trace' | 'patch'
   data?: IData
   cancelToken?: AbortSignal
   
@@ -25,6 +22,12 @@ export interface IData {
 export interface IHeadData {
 
   [key: string]: any
+
+}
+
+export interface IParams {
+
+  [key: string]: string | boolean | number
 
 }
 
