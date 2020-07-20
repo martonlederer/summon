@@ -1,0 +1,23 @@
+# adapted from https://github.com/nestdotland/eggs/blob/master/.github/workflows/ci.yml
+name: CI check
+
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+jobs:      
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+      
+    - name: Setup latest deno version
+      uses: denolib/setup-deno@v2
+      with:
+        deno-version: v1.x
+
+    - name: Run deno test
+      run: deno test -A --unstable

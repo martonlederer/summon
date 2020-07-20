@@ -6,6 +6,6 @@
   "files": [
     "./README.md",
     "./mod.ts",
-    "./lib"
+    "./lib/**/*"
   ]
 }
