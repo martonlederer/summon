@@ -11,7 +11,7 @@ export async function doRequest ({
   headers,
   params,
   validateStatus,
-  timeout,
+  timeout, // with cancel token
   auth,
   data,
   cancelToken
@@ -23,7 +23,7 @@ export async function doRequest ({
   // using base url ?
   if(baseURL)
     if(url.includes('://'))
-      throw Error('Base URL is already given, counting url as an URI. You cannot use a protocol with an URI.') // if there is a base url, we count the url field as an URI, so it cannot have a protocol
+      throw new Error('Base URL is already given, counting url as an URI. You cannot use a protocol with an URI.') // if there is a base url, we count the url field as an URI, so it cannot have a protocol
     else
       url = concatURL(baseURL, url) // concat base url with the URI string
 
@@ -38,13 +38,40 @@ export async function doRequest ({
   }else
     method = 'get' // method is get by default
 
-  // cleaning up headers
-  if(headers) {
-    request.headers = createHeaders(headers)
-
   // map params to a string
   let encodedParams = params ? concatParams(params) : ''
 
+  // simple login request with auth credentials?
+  if(auth && auth.username && auth.password) {
 
+    if(!headers) headers = {}
+
+    headers['Authorization'] = `Basic ${ btoa(unescape(encodeURIComponent(`${ auth.username }:${ auth.password }`))) }`
+
+  }
+
+  // cleaning up data
+  if(data) {
+
+    if(method === 'get')
+      throw new Error('Can\'t use data field in a get request')
+
+    if(typeof data === 'string' || data instanceof FormData)
+      request.body = data
+    else { // data is not in usable format, we have to convert it
+
+      if(!headers) headers = {}
+
+      headers['Accept'] = 'application/json'
+      headers['Content-Type'] = 'application/json'
+      request.body = JSON.stringify(data)
+
+    }
+
+  }
+
+  // cleaning up headers
+  if(headers) {
+    request.headers = createHeaders(headers)
 
 }

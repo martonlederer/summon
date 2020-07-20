@@ -8,7 +8,7 @@ export interface IRequest {
   validateStatus?: Function
   timeout?: number
   auth?: { username: string, password: string }
-  data?: IData
+  data?: IData | string | FormData
   cancelToken?: AbortSignal
   
 }

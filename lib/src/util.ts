@@ -1,4 +1,4 @@
-import { IHeadData, IParams } from '../types.ts'
+import { IHeadData, IParams, IData } from '../types.ts'
 
 // create a valid url from a base url and an uri
 export function concatURL (baseURL: string, URI: string): string {
