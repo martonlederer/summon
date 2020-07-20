@@ -42,6 +42,8 @@ export interface IResult {
 
   response: IResponse | null
   error: Error | IResponseError | null
+  res: IResponse | null // shortcut
+  err: Error | IResponseError | null // shortcut
 
 }
 

@@ -33,7 +33,7 @@ Deno.test({
   name: 'Test summon api #2 - POST request, with headers and data\n',
   async fn () {
 
-    let { response, error } = await summon({ 
+    let { res, err } = await summon({ 
       
       url: 'https://jsonplaceholder.typicode.com/posts',
       method: 'post',
@@ -52,16 +52,59 @@ Deno.test({
     
     })
 
+    if(err)
+      throw new Error(JSON.stringify(err))
+
+    if(res === null)
+      throw new Error('Response is null')
+
+    console.log(res)    
+
+    assertEquals(res.data.title, 'foo')
+
+  }
+  
+})
+
+Deno.test({
+
+  name: 'Test summon api #3 - DELETE request\n',
+  async fn () {
+
+    let { response, error } = await summon({ 
+      
+      url: 'https://jsonplaceholder.typicode.com/posts/1',
+      method: 'delete'
+    
+    })
+
     if(error)
       throw new Error(JSON.stringify(error))
 
     if(response === null)
       throw new Error('Response is null')
 
-    console.log(response)    
-
-    assertEquals(response.data.title, 'foo')
+    console.log(response)
 
   }
   
+})
+
+Deno.test({
+  
+  name: 'Test summon shortcuts #1 - GET request\n',
+  async fn () {
+
+    let { response, error } = await summon.get('https://api.github.com/repos/nestdotland/nest.land')
+
+    if(error)
+      throw new Error(JSON.stringify(error))
+
+    if(response === null)
+      throw new Error('Response is null')
+
+    console.log(`Got response. The nest.land repo has ${ response.data.stargazers_count } starts, ${ response.data.forks_count } forks and is written in ${ response.data.language }.`)
+
+  }
+
 })

@@ -26,20 +26,20 @@
  You can also access all requests with their respective lowercase shortcuts
  
  ```ts
- const { response, error } = await summon.post('https://example.com/post', {
+ const { res, err } = await summon.post('https://example.com/post', { // you can also use shortcuts to response and error (res, err)
 
    title: 'test',
    description: 'This is a test description for a new post'
 
  })
  // or
- const { response, error } = await summon.put(...)
- const { response, error } = await summon.delete(...)
- const { response, error } = await summon.patch(...)
- const { response, error } = await summon.options(...)
- const { response, error } = await summon.head(...)
- const { response, error } = await summon.connect(...)
- const { response, error } = await summon.trace(...)
+ const { res, err } = await summon.put(...)
+ const { res, err } = await summon.delete(...)
+ const { res, err } = await summon.patch(...)
+ const { res, err } = await summon.options(...)
+ const { res, err } = await summon.head(...)
+ const { res, err } = await summon.connect(...)
+ const { res, err } = await summon.trace(...)
  ```
 
 ## Summon API
@@ -72,7 +72,7 @@
  ```
  You can even put the URL inside the config object
  ```ts
- const { response, error } = await summon({
+ const { res, err } = await summon({
 
   url: 'https://example.com/',
   ...

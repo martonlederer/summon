@@ -127,16 +127,16 @@ export async function doRequest ({
     if(validateStatus) validStatusCode = validateStatus(status) // if there is a validate function, use that
 
     if(validStatusCode)
-      return { response: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, error: null }
+      return { response: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, error: null, res: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, err: null }
     else
-      return { response: null, error: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig } }
+      return { response: null, error: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig }, res: null, err: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig } }
 
   }catch(error) {
 
-    return { response: null, error }
+    return { response: null, error, res: null, err: error }
 
   }
 
-  return { response: null, error: new Error('Unknown error') }
+  return { response: null, error: new Error('Unknown error'), res: null, err: new Error('Unknown error') }
 
 }
