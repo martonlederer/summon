@@ -6,10 +6,10 @@ export function concatURL (baseURL: string, URI: string): string {
   const
     baseParts = baseURL.split('/'),
     uriParts = URI.split('/'),
-    fullParts = baseParts.concat(uriParts),
+    fullParts = baseParts.concat(uriParts).filter(el => el !== ''),
     url = fullParts.join('/')
 
-  return url.replace(new RegExp('(?<!:)(\/\/)', 'g'), '')
+  return url
 
 }
 

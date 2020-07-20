@@ -15,14 +15,14 @@ export async function summon (urlOrConfig: string | IRequest, config?: IRequest)
 
 // shortcuts
 summon.get = async (url: string, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'get' }))
-summon.post = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'post', data }))
-summon.delete = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'delete', data }))
-summon.put = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'put', data }))
-summon.options = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'options', data }))
-summon.head = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'head', data }))
-summon.connect = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'connect', data }))
-summon.trace = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'trace', data }))
-summon.patch = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, { url }, config, { method: 'patch', data }))
+summon.post = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'post', data }))
+summon.delete = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'delete', data }))
+summon.put = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'put', data }))
+summon.options = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'options', data }))
+summon.head = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'head', data }))
+summon.connect = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'connect', data }))
+summon.trace = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'trace', data }))
+summon.patch = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'patch', data }))
 
 // the default config
 summon.defaultConfig = { method: 'get', timeout: 0, throwErrorOnTimeout: false, validateStatus: (status: number) => (status >= 200 && status < 300) }

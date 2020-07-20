@@ -39,6 +39,9 @@ export async function doRequest ({
   }else
     method = 'get' // method is get by default
 
+  if(method !== 'get')
+    Request.method = method.toUpperCase()
+
   // map params to a string
   let encodedParams = params ? concatParams(params) : ''
 
@@ -110,7 +113,7 @@ export async function doRequest ({
 
       try {
 
-        responseData = await Response.json()
+        responseData = await Response.json() // successful json parse
 
       }catch (err) {
 
@@ -121,7 +124,7 @@ export async function doRequest ({
     }else
       responseData = Response.text() // parsing as text
 
-    if(validateStatus) validStatusCode = validateStatus(status)
+    if(validateStatus) validStatusCode = validateStatus(status) // if there is a validate function, use that
 
     if(validStatusCode)
       return { response: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, error: null }
