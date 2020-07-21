@@ -21,6 +21,9 @@ export async function doRequest ({
 
   const Request: RequestInit = {}
 
+  if(url === undefined)
+    url = '/'
+
   // using base url ?
   if(baseURL)
     if(url.includes('://'))
@@ -127,16 +130,16 @@ export async function doRequest ({
     if(validateStatus) validStatusCode = validateStatus(status) // if there is a validate function, use that
 
     if(validStatusCode)
-      return { response: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, error: null, res: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, err: null }
+      return { response: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig }, res: { status, statusText, data: responseData, headers: responseHeaders, config: finalConfig } }
     else
-      return { response: null, error: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig }, res: null, err: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig } }
+      return { error: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig }, err: { response: { status, statusText, data: responseData, headers: responseHeaders }, config: finalConfig } }
 
   }catch(error) {
 
-    return { response: null, error, res: null, err: error }
+    return { error, err: error }
 
   }
 
-  return { response: null, error: new Error('Unknown error'), res: null, err: new Error('Unknown error') }
+  return { error: new Error('Unknown error'), err: new Error('Unknown error') }
 
 }

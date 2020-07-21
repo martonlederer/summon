@@ -24,5 +24,16 @@ summon.connect = async (url: string, data?: IData | string | FormData, config?: 
 summon.trace = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'trace', data }))
 summon.patch = async (url: string, data?: IData | string | FormData, config?: IRequest): Promise<IResult> => doRequest(Object.assign({}, summon.defaultConfig, { url }, config, { method: 'patch', data }))
 
+// create an instace of summon
+summon.create = (config?: IRequest) => {
+
+  const summonInstance = Object.assign({}, summon)
+
+  summonInstance.defaultConfig = Object.assign({}, summon.defaultConfig, config) // add a default config for the instance overriding the summon default with user specified one
+
+  return summonInstance
+
+}
+
 // the default config
 summon.defaultConfig = { method: 'get', timeout: 0, throwErrorOnTimeout: false, validateStatus: (status: number) => (status >= 200 && status < 300) }

@@ -16,13 +16,12 @@ Deno.test({
 
     if(error)
       throw new Error(JSON.stringify(error))
+    else if(response) {
 
-    if(response === null)
-      throw new Error('Response is null')
+      console.log(response)
+      assertEquals(response.data.id, 1)
 
-    console.log(response)
-
-    assertEquals(response.data.id, 1)
+    }
 
   }
   
@@ -54,13 +53,12 @@ Deno.test({
 
     if(err)
       throw new Error(JSON.stringify(err))
+    else if(res) {
 
-    if(res === null)
-      throw new Error('Response is null')
+      console.log(res)
+      assertEquals(res.data.title, 'foo')
 
-    console.log(res)    
-
-    assertEquals(res.data.title, 'foo')
+    }
 
   }
   
@@ -80,11 +78,8 @@ Deno.test({
 
     if(error)
       throw new Error(JSON.stringify(error))
-
-    if(response === null)
-      throw new Error('Response is null')
-
-    console.log(response)
+    else if(response)
+      console.log(response)  
 
   }
   
@@ -99,12 +94,27 @@ Deno.test({
 
     if(error)
       throw new Error(JSON.stringify(error))
-
-    if(response === null)
-      throw new Error('Response is null')
-
-    console.log(`Got response. The nest.land repo has ${ response.data.stargazers_count } starts, ${ response.data.forks_count } forks and is written in ${ response.data.language }.`)
+    else if(response)
+      console.log(`Got response. The nest.land repo has ${ response.data.stargazers_count } starts, ${ response.data.forks_count } forks and is written in ${ response.data.language }.`)
 
   }
 
+})
+
+Deno.test({
+
+  name: 'Test summon instance #1 - GET request\n',
+  async fn () {
+
+    const INSTANCE = summon.create({ baseURL: 'https://api.github.com' })
+
+    let { response, error } = await INSTANCE.get('users/MartonDev')
+
+    if(error)
+      throw new Error(JSON.stringify(error))
+    else if(response)
+      console.log(`Marton Lederer has ${ response.data.public_repos } public repos`)  
+
+  }
+  
 })

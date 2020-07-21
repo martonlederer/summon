@@ -1,6 +1,6 @@
 export interface IRequest {
 
-  url: string
+  url?: string
   baseURL?: string
   method?: string | 'get' | 'post' | 'put' | 'delete' | 'options' | 'head' | 'connect' | 'trace' | 'patch'
   headers?: IHeadData
@@ -40,10 +40,10 @@ export interface IParams {
 
 export interface IResult {
 
-  response: IResponse | null
-  error: Error | IResponseError | null
-  res: IResponse | null // shortcut
-  err: Error | IResponseError | null // shortcut
+  response?: IResponse | null
+  error?: Error | IResponseError | null
+  res?: IResponse | null // shortcut
+  err?: Error | IResponseError | null // shortcut
 
 }
 
