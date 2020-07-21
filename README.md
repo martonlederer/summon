@@ -26,20 +26,20 @@
  You can also access all requests with their respective lowercase shortcuts
  
  ```ts
- const { res, err } = await summon.post('https://example.com/post', { // you can also use shortcuts to response and error (res, err)
+ const { res } = await summon.post('https://example.com/post', { // you can also use shortcuts to response and error (res, err)
 
    title: 'test',
    description: 'This is a test description for a new post'
 
  })
  // or
- const { res, err } = await summon.put(...)
- const { res, err } = await summon.delete(...)
- const { res, err } = await summon.patch(...)
- const { res, err } = await summon.options(...)
- const { res, err } = await summon.head(...)
- const { res, err } = await summon.connect(...)
- const { res, err } = await summon.trace(...)
+ const { res } = await summon.put(...)
+ const { res } = await summon.delete(...)
+ const { res } = await summon.patch(...)
+ const { res } = await summon.options(...)
+ const { res } = await summon.head(...)
+ const { res } = await summon.connect(...)
+ const { res } = await summon.trace(...)
  ```
 
 ## Summon API
@@ -79,6 +79,13 @@
 
  })
  ```
+
+### Instance
+ You can create an instance of summon with the `create()` function
+ ```ts
+ const INSTANCE = summon.create({ baseURL: 'https://api.github.com/' })
+ ```
+
 # License
 Licensed under the [MIT License](https://github.com/MartonDev/summon/blob/master/LICENSE)
 Contributions are welcome. 

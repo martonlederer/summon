@@ -86,6 +86,24 @@ Deno.test({
 })
 
 Deno.test({
+
+  name: 'Test summon instance #1 - GET request\n',
+  async fn () {
+
+    const INSTANCE = summon.create({ baseURL: 'https://api.github.com/users' })
+
+    let { response, error } = await INSTANCE({ url: '/MartonDev' })
+
+    if(error)
+      throw new Error(JSON.stringify(error))
+    else if(response)
+      console.log(`Marton Lederer has ${ response.data.public_repos } public repos`)  
+
+  }
+  
+})
+
+Deno.test({
   
   name: 'Test summon shortcuts #1 - GET request\n',
   async fn () {
@@ -99,22 +117,4 @@ Deno.test({
 
   }
 
-})
-
-Deno.test({
-
-  name: 'Test summon instance #1 - GET request\n',
-  async fn () {
-
-    const INSTANCE = summon.create({ baseURL: 'https://api.github.com' })
-
-    let { response, error } = await INSTANCE.get('users/MartonDev')
-
-    if(error)
-      throw new Error(JSON.stringify(error))
-    else if(response)
-      console.log(`Marton Lederer has ${ response.data.public_repos } public repos`)  
-
-  }
-  
 })

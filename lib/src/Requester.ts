@@ -25,11 +25,15 @@ export async function doRequest ({
     url = '/'
 
   // using base url ?
-  if(baseURL)
+  if(baseURL) {
+
     if(url.includes('://'))
       throw new Error('Base URL is already given, counting url as an URI. You cannot use a protocol with an URI.') // if there is a base url, we count the url field as an URI, so it cannot have a protocol
     else
       url = concatURL(baseURL, url) // concat base url with the URI string
+  
+  }else if(!url.includes('://'))
+    throw new Error(`No base URL for URI ${ url }`)
 
   // method exists ?
   if(method) {
